@@ -1,0 +1,6 @@
+{
+    "name": "Scott's Test App",
+    "tasks" : "../backend/tasks",
+    "data" : "../backend/data",
+    "port": 9999
+}
