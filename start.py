@@ -23,7 +23,9 @@ def runTask(task):
         func = getattr(module, 'func')
         args = {k : v for k, v in request.args.iterlists() if k != "token" }
         data = func(**args)
-    return jsonify(data)
+        return jsonify(data)
+    else:
+        return jsonify(message="Task does not exist."), status.HTTP_404_NOT_FOUND
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=bind_port, threaded=False, debug=True)
