@@ -22,7 +22,9 @@ def runTask(task):
         module = import_module(task, tasks_dir)
         func = getattr(module, 'func')
         args = {k : v for k, v in request.args.iterlists() if k != "token" }
+        print(request.url, args)
         data = func(**args)
+        print(data)
         return jsonify(data)
     else:
         return jsonify(message="Task does not exist."), status.HTTP_404_NOT_FOUND
