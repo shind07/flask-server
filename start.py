@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 from __future__ import absolute_import, division, print_function, unicode_literals
@@ -10,7 +10,7 @@ from flask_cors import CORS
 from flask_api import status
 from config import app_name, bind_port, tasks_dir, data_dir
 
-
+print(sys.version_info)
 app = Flask(app_name)
 CORS(app)
 
@@ -28,7 +28,7 @@ def runTask(task):
         #print(json.dumps(data))
         return json.dumps(data)
     else:
-        return json.dumps(message="Task does not exist."), status.HTTP_404_NOT_FOUND
+        return json.dumps("Task does not exist."), status.HTTP_404_NOT_FOUND
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=bind_port, threaded=False, debug=True)
