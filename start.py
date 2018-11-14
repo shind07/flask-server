@@ -10,21 +10,20 @@ from flask_cors import CORS
 from flask_api import status
 from config import app_name, bind_port, tasks_dir, data_dir
 
-print(sys.version_info)
 app = Flask(app_name)
 CORS(app)
 
 tasks = [f[:-3] for f in os.listdir(tasks_dir) if f.endswith(".py")]
 sys.path.insert(0, tasks_dir)
 
-@app.route('/<task>', methods=['GET', 'POST'])
-def runTask(task):
+@app.route('/<task>/<func>', methods=['GET', 'POST'])
+def runTask(task, func):
     if task in tasks:
         module = import_module(task, tasks_dir)
-        func = getattr(module, 'func')
-        args = {k : v for k, v in request.args.iterlists() if k != "token" }
+        f = getattr(module, func)
+        args = {k : v for k, v in request.args.iterlists()}
         print(request.url, args)
-        data = func(**args)
+        data = f(**args)
         #print(json.dumps(data))
         return json.dumps(data)
     else:
