@@ -15,13 +15,17 @@ CORS(app)
 
 tasks = [f[:-3] for f in os.listdir(tasks_dir) if f.endswith(".py")]
 sys.path.insert(0, tasks_dir)
+python_version = sys.version_info[0]
 
 @app.route('/<task>/<func>', methods=['GET', 'POST'])
 def runTask(task, func):
     if task in tasks:
         module = import_module(task, tasks_dir)
         f = getattr(module, func)
-        args = {k : v for k, v in request.args.iterlists()}
+        if python_version == 2:
+            args = {k : v for k, v in request.args.iterlists()}
+        else:
+            args = {k : v for k, v in request.args.lists()}
         print(request.url, args)
         data = f(**args)
         #print(json.dumps(data))
